@@ -11,7 +11,6 @@
     }
 %}
 
-
 lettre [a-z]
 chiffre [0-9]
 entier_signe \([+-]?{chiffre}+)\
@@ -24,6 +23,16 @@ ERREUR_NUM_IDENT {chiffre}+({lettre}|{chiffre}|_)*
 ERREUR_UNDERS_IDENT _({lettre}|{chiffre}|_)*
 
 %%
+
+"##".*            {/* ignore les commentaires sur un seul lignes */}
+\{--(.|\n)*?--\}  {/* ignore les commentaires sur plusieurs lignes */}
+
+"MainPrgm"      { printf("Mot-cle detecte : MainPrgm\n"); }
+"Var"           { printf("Mot-cle detecte : Var\n"); }
+"BeginPg"       { printf("Mot-cle detecte : BeginPg\n"); }
+"EndPg"         { printf("Mot-cle detecte : EndPg\n"); }
+"let"           { printf("Mot-cle detecte : let\n"); }
+"@define"       { printf("Mot-cle detecte : @define\n"); }
 
 "Int"       { printf("Type Int detecte : %s\n", yytext); nb_colonne += yyleng; }
 "Float"     { printf("Type Float detecte : %s\n", yytext); nb_colonne += yyleng; }
@@ -88,6 +97,18 @@ ERREUR_UNDERS_IDENT _({lettre}|{chiffre}|_)*
 "AND"|"OR"    { printf("Operateur logique : %s\n", yytext);nb_colonne += yyleng; }
 "!"           { printf("Operateur NOT : %s\n", yytext); nb_colonne += yyleng;}
 "=="|"!="|"<="|">="|"<"|">"  { printf("Operateur de comparaison : %s\n", yytext); nb_colonne += yyleng;}
+
+"{"         { printf("Ouverture de bloc\n"); }
+"}"         { printf("Fermeture de bloc\n"); }
+"["         { printf("Crochet ouvrant\n"); }
+"]"         { printf("Crochet fermant \n"); }
+
+";"         { printf("Point virgule\n"); }
+":"         { printf("Declaration\n"); }
+","         { printf("Virgule\n"); }
+"\'"        { printf("Guillemets\n"); }
+":="        { printf("Affectation\n"); }
+"="        { printf("Egal\n"); }
 
 [ \t]+      {nb_colonne += yyleng;}
 \n          { nb_ligne++,nb_colonne = 1; }

@@ -2,6 +2,14 @@ declaration
 
 body
 begin
+MainPrgm test;
+Var
+    let x, y: Int;
+    @define Const PI: Float = 3.14;
+BeginPg
+    < !- Ceci est un commentaire - !>
+    {-- Commentaire multi-lignes --}
+EndPg;
 Int
 !
 (+567.45)
